@@ -8,7 +8,7 @@ const searchRoutes = require('./routes/searchRoutes')
 const authRoutes = require('./routes/authRoutes')
 const imageRoutes = require('./routes/imageRoutes')
 const connectToDatabase = require('./models/db')
-const { loadData } = require("./util/import-mongo/index")
+const { loadData } = require('./util/import-mongo/index')
 
 loadData()
 
