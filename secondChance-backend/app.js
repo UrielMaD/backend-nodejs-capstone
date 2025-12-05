@@ -6,7 +6,7 @@ const pinoLogger = require('./logger');
 const secondChanceItemsRoutes = require('./routes/secondChanceItemsRoutes');
 const searchRoutes = require('./routes/searchRoutes');
 const authRoutes = require('./routes/authRoutes');
-// const imageRoutes = require('./routes/imageRoutes');
+const imageRoutes = require('./routes/imageRoutes');
 const connectToDatabase = require('./models/db');
 const { loadData } = require("./util/import-mongo/index")
 
@@ -33,7 +33,7 @@ app.use(pinoHttp({ logger }));
 
 // Use Routes
 // authRoutes Step 2: add the authRoutes and to the server by using the app.use() method.
-// app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 
 // Items API Task 2: add the secondChanceItemsRoutes to the server by using the app.use() method.
 app.use('/api/secondchance/items', secondChanceItemsRoutes);
@@ -41,7 +41,7 @@ app.use('/api/secondchance/items', secondChanceItemsRoutes);
 // Search API Task 2: add the searchRoutes to the server by using the app.use() method.
 app.use('/api/secondchance/search', searchRoutes);
 
-// app.use('/images', imageRoutes);
+app.use('/images', imageRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
