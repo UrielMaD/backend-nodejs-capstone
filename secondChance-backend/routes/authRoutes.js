@@ -81,11 +81,11 @@ router.post('/login', async (req, res) => {
       // Task 7: Send appropriate message if the user is not found
     } else {
       logger.error('User not found')
-        return res.status(404).json({ error: 'User not found' })
+      return res.status(404).json({ error: 'User not found' })
     }
   } catch (e) {
     logger.error(e)
-      return res.status(500).send('Internal server error')
+    return res.status(500).send('Internal server error')
   }
 })
 
@@ -94,7 +94,7 @@ router.put('/update', async (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     logger.error('Validation errors in update request', errors.array())
-      return res.status(400).json({ errors: errors.array() })
+    return res.status(400).json({ errors: errors.array() })
   }
   try {
     // Task 3: Check if `email` is present in the header and throw an appropriate error message if it is not present
@@ -111,7 +111,7 @@ router.put('/update', async (req, res) => {
     const existingUser = await collection.findOne({ email })
     if (!existingUser) {
       logger.error('User not found')
-        return res.status(404).json({ error: 'User not found' })
+      return res.status(404).json({ error: 'User not found' })
     }
     existingUser.firstName = req.body.name
     existingUser.updatedAt = new Date()
@@ -132,7 +132,7 @@ router.put('/update', async (req, res) => {
     res.json({ authtoken })
   } catch (e) {
     logger.error(e)
-      return res.status(500).send('Internal server error')
+    return res.status(500).send('Internal server error')
   }
 })
 
