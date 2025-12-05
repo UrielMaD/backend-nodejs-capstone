@@ -1,7 +1,6 @@
 const express = require('express')
 const multer = require('multer')
 const path = require('path')
-const fs = require('fs')
 const router = express.Router()
 const connectToDatabase = require('../models/db')
 const logger = require('../logger')
@@ -111,21 +110,21 @@ router.put('/:id', async (req, res, next) => {
 
 // Delete an existing item
 router.delete('/:id', async (req, res, next) => {
-    try {
-        const id = req.params.id
-        const db = await connectToDatabase()
-        const collection = db.collection('secondChanceItems')
-        const secondChanceItem = await collection.findOne({ id })
+  try {
+    const id = req.params.id
+    const db = await connectToDatabase()
+    const collection = db.collection('secondChanceItems')
+    const secondChanceItem = await collection.findOne({ id })
 
-        if (!secondChanceItem) {
-            logger.error('secondChanceItem not found')
-            return res.status(404).json({ error: 'secondChanceItem not found' })
-        }
-        await collection.deleteOne({ id })
-        res.json({ 'deleted': 'success' })
-    } catch (e) {
-        next(e)
+    if (!secondChanceItem) {
+      logger.error('secondChanceItem not found')
+      return res.status(404).json({ error: 'secondChanceItem not found' })
     }
+    await collection.deleteOne({ id })
+    res.json({ 'deleted': 'success' })
+  } catch (e) {
+    next(e)
+  }
 })
 
 module.exports = router
