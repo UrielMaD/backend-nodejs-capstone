@@ -1,4 +1,3 @@
-
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
@@ -23,29 +22,29 @@ router.post('/register', async (req, res) => {
       logger.error('Email id already exists')
       return res.status(400).json({ error: 'Email id already exists' })
     }
-      // Task 4: Create a hash to encrypt the password so that it is not readable in the database
-      const salt = await bcryptjs.genSalt(10)
-      const hash = await bcryptjs.hash(req.body.password, salt)
-      // Task 5: Insert the user into the database
-      const newUser = await collection.insertOne({
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        password: hash,
-        createdAt: new Date()
-      })
-      // Task 6: Create JWT authentication if passwords match with user._id as payload
-      const payload = {
-        user: {
-          id: newUser.insertedId
-        }
+    // Task 4: Create a hash to encrypt the password so that it is not readable in the database
+    const salt = await bcryptjs.genSalt(10)
+    const hash = await bcryptjs.hash(req.body.password, salt)
+    // Task 5: Insert the user into the database
+    const newUser = await collection.insertOne({
+      email: req.body.email,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: hash,
+      createdAt: new Date()
+    })
+    // Task 6: Create JWT authentication if passwords match with user._id as payload
+    const payload = {
+      user: {
+        id: newUser.insertedId
       }
+    }
 
-      const authtoken = jwt.sign(payload, JWT_SECRET)
-      // Task 7: Log the successful registration using the logger
-      logger.info('User registered successfully')
-      // Task 8: Return the user email and the token as a JSON
-      res.json({ authtoken, email })
+    const authtoken = jwt.sign(payload, JWT_SECRET)
+    // Task 7: Log the successful registration using the logger
+    logger.info('User registered successfully')
+    // Task 8: Return the user email and the token as a JSON
+    res.json({ authtoken, email })
   } catch (e) {
     logger.error(e)
     return res.status(500).send('Internal server error')
